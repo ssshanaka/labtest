@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from "react";
 
 function ItemForm({ initialData, onSave, onCancel }) {
   const [formData, setFormData] = useState({
-    name: '',
-    quantity: '',
-    price: ''
+    name: "",
+    quantity: "",
+    price: "",
+    category: "",
+    status: "",
   });
 
   useEffect(() => {
@@ -12,18 +14,26 @@ function ItemForm({ initialData, onSave, onCancel }) {
       setFormData({
         name: initialData.name,
         quantity: initialData.quantity,
-        price: initialData.price
+        price: initialData.price,
+        category: initialData.category,
+        status: initialData.status,
       });
     } else {
-      setFormData({ name: '', quantity: '', price: '' });
+      setFormData({
+        name: "",
+        quantity: "",
+        price: "",
+        category: "",
+        status: "Available",
+      });
     }
   }, [initialData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -31,7 +41,13 @@ function ItemForm({ initialData, onSave, onCancel }) {
     e.preventDefault();
     onSave(formData);
     if (!initialData) {
-      setFormData({ name: '', quantity: '', price: '' });
+      setFormData({
+        name: "",
+        quantity: "",
+        price: "",
+        category: "",
+        status: "Available",
+      });
     }
   };
 
@@ -49,7 +65,7 @@ function ItemForm({ initialData, onSave, onCancel }) {
           required
         />
       </div>
-      
+
       <div className="form-row">
         <div className="form-group">
           <label htmlFor="quantity">Quantity</label>
@@ -64,7 +80,7 @@ function ItemForm({ initialData, onSave, onCancel }) {
             required
           />
         </div>
-        
+
         <div className="form-group">
           <label htmlFor="price">Price ($)</label>
           <input
@@ -79,8 +95,35 @@ function ItemForm({ initialData, onSave, onCancel }) {
             required
           />
         </div>
+
+        <div className="form-group">
+          <label htmlFor="category">Category</label>
+          <input
+            type="text"
+            id="category"
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            placeholder="Item category"
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="status">Status</label>
+          <select
+            id="status"
+            name="status"
+            value={formData.status}
+            onChange={handleChange}
+            required
+          >
+            <option value={"Available"}>Available</option>
+            <option value={"Out of Stock"}>Out of Stock</option>
+          </select>
+        </div>
       </div>
-      
+
       <div className="form-actions">
         {onCancel && (
           <button type="button" className="btn-cancel" onClick={onCancel}>
@@ -88,7 +131,7 @@ function ItemForm({ initialData, onSave, onCancel }) {
           </button>
         )}
         <button type="submit" className="btn-submit">
-          {initialData ? 'Update Item' : 'Add Item'}
+          {initialData ? "Update Item" : "Add Item"}
         </button>
       </div>
     </form>

@@ -18,6 +18,16 @@ const itemSchema = new mongoose.Schema(
       required: [true, "Please provide the price"],
       min: [0, "Price cannot be negative"],
     },
+    category: {
+      type: String,
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: ["Available", "Out of Stock"],
+      default: "Available",
+      required: true,
+    },
   },
   {
     timestamps: true,

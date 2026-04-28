@@ -15,7 +15,7 @@ const getItems = async (req, res) => {
 // @route   POST /api/items
 const createItem = async (req, res) => {
   try {
-    const { name, quantity, price } = req.body;
+    const { name, quantity, price, category, status } = req.body;
 
     if (!name || quantity === undefined || price === undefined) {
       return res
@@ -27,6 +27,8 @@ const createItem = async (req, res) => {
       name,
       quantity,
       price,
+      category,
+      status,
     });
 
     res.status(201).json(newItem);
